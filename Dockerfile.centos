@@ -1,0 +1,8 @@
+FROM centos:6.7
+LABEL maintainer "Fernando Ortiz <nandub@nandub.info>"
+
+RUN yum -y install fuse fuse-libs
+
+WORKDIR /root
+
+COPY ./images /root
