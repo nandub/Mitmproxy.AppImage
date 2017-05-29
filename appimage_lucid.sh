@@ -57,7 +57,6 @@ compile_openssl()
     ./config -Wl,--version-script="$topdir/linux/openssl.ld" -Wl,-Bsymbolic-functions -fPIC shared no-ssl2 no-ssl3 -fPIC --prefix="$appdir/usr"
     make && make install
     popd
-    #CFLAGS="-I$distdir/openssl/include" LDFLAGS="-L$distdir/openssl/lib" run "$pip" wheel --no-binary :all: cryptography
 }
 
 # set ARCH
@@ -80,8 +79,8 @@ set_arch()
   fi
 }
 
-apt-get update \
-    && apt-get -y --no-install-recommends install ca-certificates \
+run apt-get update \
+    && run apt-get -y --no-install-recommends install ca-certificates \
     curl \
     file \
     g++ \
@@ -96,8 +95,7 @@ apt-get update \
     libssl-dev \
     make \
     python \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
+    wget
 
 if ! which python2 > /dev/null; then
     run ln -s /usr/bin/python2.* /usr/bin/python2
@@ -126,15 +124,16 @@ fi
 if [ -f /usr/bin/lsb_release ]; then
   name=$(lsb_release -a | grep Codename | awk '{ print $2 }')
   if [ "$name" = "lucid" ]; then
-      apt-get install zfs-fuse
+      run apt-get -y --no-install-recommends install zfs-fuse
       if [ -d /debs ]; then
           run /debs/backport-precise-libs.sh
       fi
       run compile_openssl
   else
-      apt-get install fuse
+      run apt-get -y --no-install-recommends install fuse
   fi
 fi
+run rm -rf /var/lib/apt/lists/*
 
 # Install app and dependencies inside the AppDir
 appdir_ssl()
