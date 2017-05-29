@@ -84,7 +84,6 @@ apt-get update \
     && apt-get -y --no-install-recommends install ca-certificates \
     curl \
     file \
-    zfs-fuse \
     g++ \
     gcc \
     libbz2-dev \
@@ -127,10 +126,13 @@ fi
 if [ -f /usr/bin/lsb_release ]; then
   name=$(lsb_release -a | grep Codename | awk '{ print $2 }')
   if [ "$name" = "lucid" ]; then
+      apt-get install zfs-fuse
       if [ -d /debs ]; then
-          /debs/backport-precise-libs.sh
+          run /debs/backport-precise-libs.sh
       fi
       run compile_openssl
+  else
+      apt-get install fuse
   fi
 fi
 
