@@ -18,9 +18,12 @@ COPY ./patches /root/patches
 RUN mkdir /root/resources
 COPY ./resources /root/resources
 
+RUN mkdir /root/debs
+COPY ./debs /root/debs
+
 RUN cat /root/patches/lucid-sources.txt > /etc/apt/sources.list
 
-VOLUME image debs
+VOLUME image
 
 ENTRYPOINT ["/bin/bash"]
 

@@ -7,7 +7,6 @@ set -e
 . ./utils/functions.sh
 
 APP=Mitmproxy
-VERSION=2.0.2
 LOWERAPP=$(echo $APP | tr '[:upper:]' '[:lower:]')
 topdir="$PWD"
 distdir="$topdir/dist"
@@ -125,8 +124,8 @@ if [ -f /usr/bin/lsb_release ]; then
   name=$(lsb_release -a | grep Codename | awk '{ print $2 }')
   if [ "$name" = "lucid" ]; then
       run apt-get -y --no-install-recommends install zfs-fuse
-      if [ -d /debs ]; then
-          run /debs/backport-precise-libs.sh
+      if [ -d /root/debs ]; then
+          run /root/debs/backport-precise-libs.sh
       fi
       run compile_openssl
   else
@@ -188,9 +187,11 @@ run wheels_install --no-install pip wheel
 
 # Install app and dependencies
 run "$pip" download -d "$wheels" -f "$wheels" --no-binary :all: cryptography
-run "$pip" download -d "$wheels" -f "$wheels" $LOWERAPP==$VERSION
+run "$pip" download -d "$wheels" -f "$wheels" $LOWERAPP
 run "$pip" install -f "$wheels" --no-binary :all: cryptography
-run "$pip" install -f "$wheels" $LOWERAPP==$VERSION
+run "$pip" install -f "$wheels" $LOWERAPP
+
+VERSION=$("$pip" show $LOWERAPP | grep Version | awk '{ print $2 }')
 
 # List installed Python packages.
 run "$python" -m pip list --format=columns
