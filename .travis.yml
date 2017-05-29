@@ -1,3 +1,5 @@
+sudo: required
+
 language: none 
 
 services:
