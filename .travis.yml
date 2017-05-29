@@ -5,10 +5,12 @@ language: none
 services:
   - docker
  
-script:
+before_install:
   - mkdir -p ${PWD}/images
-  - docker build -t nandub/appimage_mitmproxy -f Dockerfile_lucid.ubuntu .
+  - docker build -t nandub/mitmproxy_appimage -f Dockerfile_lucid.ubuntu .
   - docker run -i -v $(pwd)/images:/image --cap-add SYS_ADMIN --cap-add MKNOD --device=/dev/fuse:mrw nandub/mitmproxy_appimage
+
+script:
   - ls -lh ${PWD}/images/*
   - wget -c https://github.com/probonopd/uploadtool/raw/master/upload.sh
   - bash ./upload.sh ${PWD}/images/*
