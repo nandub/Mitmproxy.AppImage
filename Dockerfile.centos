@@ -1,8 +1,19 @@
 FROM centos:6.7
 LABEL maintainer "Fernando Ortiz <nandub@nandub.info>"
 
-RUN yum -y install fuse fuse-libs
-
 WORKDIR /root
 
-COPY ./images /root
+RUN mkdir /root/linux
+COPY ./linux /root/linux
+
+RUN mkdir /root/utils
+COPY ./utils /root/utils
+
+COPY ./appimage_centos.sh /root
+RUN chmod +x /root/appimage_centos.sh
+
+VOLUME image
+
+ENTRYPOINT ["/bin/bash"]
+
+CMD ["/root/appimage_centos.sh"]

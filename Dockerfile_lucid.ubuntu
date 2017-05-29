@@ -1,0 +1,27 @@
+FROM ubuntu:10.04
+LABEL maintainer "Fernando Ortiz <nandub@nandub.info>"
+
+WORKDIR /root
+
+RUN mkdir /root/linux
+COPY ./linux /root/linux
+
+RUN mkdir /root/utils
+COPY ./utils /root/utils
+
+COPY ./appimage_lucid.sh /root
+RUN chmod +x /root/appimage_lucid.sh
+
+RUN mkdir /root/patches
+COPY ./patches /root/patches
+
+RUN mkdir /root/resources
+COPY ./resources /root/resources
+
+RUN cat /root/patches/lucid-sources.txt > /etc/apt/sources.list
+
+VOLUME image debs
+
+ENTRYPOINT ["/bin/bash"]
+
+CMD ["/root/appimage_lucid.sh"]
