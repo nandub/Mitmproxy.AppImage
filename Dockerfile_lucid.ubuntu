@@ -1,4 +1,4 @@
-FROM ubuntu:10.04
+FROM nandub/ubuntu:10.04
 LABEL maintainer "Fernando Ortiz <nandub@nandub.info>"
 
 WORKDIR /root
@@ -12,16 +12,11 @@ COPY ./utils /root/utils
 COPY ./appimage_lucid.sh /root
 RUN chmod +x /root/appimage_lucid.sh
 
-RUN mkdir /root/patches
-COPY ./patches /root/patches
-
 RUN mkdir /root/resources
 COPY ./resources /root/resources
 
 RUN mkdir /root/debs
 COPY ./debs /root/debs
-
-RUN cat /root/patches/lucid-sources.txt > /etc/apt/sources.list
 
 VOLUME image
 

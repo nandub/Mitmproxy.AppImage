@@ -1,0 +1,14 @@
+FROM nandub/ubuntu:10.04
+LABEL maintainer "Fernando Ortiz <nandub@nandub.info>"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update \
+    && apt-get -y --no-install-recommends install \
+    zfs-fuse \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /root
+
+COPY ./images /root
