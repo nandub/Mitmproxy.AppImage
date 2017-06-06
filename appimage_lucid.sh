@@ -226,8 +226,10 @@ run cp $topdir/resources/$LOWERAPP.png "$appdir/$LOWERAPP.png"
 create_apprun()
 {
   cat >"$appdir/AppRun" <<\EOF
-#!/bin/sh
+#!/usr/bin/env bash
 set -e
+[ -n "$DEBUG" ] && set -x
+
 APPDIR="$(dirname "$(readlink -e "$0")")"
 export PATH="${APPDIR}"/usr/bin/:"${APPDIR}"/usr/sbin/:"${APPDIR}"/usr/games/:"${APPDIR}"/bin/:"${APPDIR}"/sbin/:"${PATH}"
 export LD_LIBRARY_PATH="${APPDIR}"/usr/lib/:"${APPDIR}"/usr/lib/i386-linux-gnu/:"${APPDIR}"/usr/lib/x86_64-linux-gnu/:"${APPDIR}"/usr/lib32/:"${APPDIR}"/usr/lib64/:"${APPDIR}"/lib/:"${APPDIR}"/lib/i386-linux-gnu/:"${APPDIR}"/lib/x86_64-linux-gnu/:"${APPDIR}"/lib32/:"${APPDIR}"/lib64/:"${LD_LIBRARY_PATH}"
