@@ -6,6 +6,8 @@ set -e
 
 . ./utils/functions.sh
 
+export HOME=/root
+
 APP=Mitmproxy
 LOWERAPP=$(echo $APP | tr '[:upper:]' '[:lower:]')
 topdir="$PWD"
@@ -218,7 +220,7 @@ EOF
 }
 run create_desktop
 
-run cp $topdir/resources/$LOWERAPP.png "$appdir/$LOWERAPP.png"
+run cp $topdir/resources/icon.png "$appdir/$LOWERAPP.png"
 
 # Add launcher.
 # Note: don't use AppImage's AppRun because
