@@ -1,4 +1,4 @@
-OPENSSL_1.0.1E_CUSTOM {
+OPENSSL_1.0.2E_CUSTOM {
     global:
         *;
 };

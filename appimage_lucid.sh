@@ -49,7 +49,7 @@ done
 
 compile_openssl()
 {
-    OPENSSL_VERSION="1.0.1"
+    OPENSSL_VERSION="1.0.2"
     wget -q --no-check-certificate https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz -O "$downloads/openssl-${OPENSSL_VERSION}.tar.gz"
     tar xf "$downloads/openssl-${OPENSSL_VERSION}.tar.gz" -C "$builddir"
     pushd "$builddir/openssl-${OPENSSL_VERSION}"
@@ -124,8 +124,8 @@ if [ -f /usr/bin/lsb_release ]; then
   name=$(lsb_release -a | grep Codename | awk '{ print $2 }')
   if [ "$name" = "lucid" ]; then
       run apt-get -y --no-install-recommends install zfs-fuse
-      if [ -d /root/debs ]; then
-          run /root/debs/backport-precise-libs.sh
+      if [ -d $HOME/debs ]; then
+          run $HOME/debs/backport-precise-libs.sh
       fi
       run compile_openssl
   else
@@ -135,7 +135,7 @@ fi
 run rm -rf /var/lib/apt/lists/*
 
 # Install app and dependencies inside the AppDir
-appdir_ssl()
+appdir_cmd()
 {
     export CFLAGS="-I$appdir/usr/include"
     export LDFLAGS="-L$appdir/usr/lib"
@@ -162,9 +162,9 @@ if [ $opt_optimize -ne 0 ]
 then
   cmd+=(--enable-optimizations)
 fi
-run appdir_ssl "${cmd[@]}"
-run appdir_ssl make "${make_opts[@]}"
-run appdir_ssl make "${make_opts[@]}" install >/dev/null
+run appdir_cmd "${cmd[@]}"
+run appdir_cmd make "${make_opts[@]}"
+run appdir_cmd make "${make_opts[@]}" install >/dev/null
 )
 info ')'
 
