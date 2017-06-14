@@ -1,13 +1,13 @@
-FROM centos:6.7
+FROM nandub/ubuntu:10.04
 LABEL maintainer "Fernando Ortiz <nandub+appimage@nandub.info>"
 
 WORKDIR /root
 
 COPY . /root
-RUN chmod +x /root/appimage_centos.sh
+RUN chmod +x /root/appimage_lucid.sh
 
 VOLUME image
 
 ENTRYPOINT ["/bin/bash"]
 
-CMD ["/root/appimage_centos.sh"]
+CMD ["/root/appimage_lucid.sh"]

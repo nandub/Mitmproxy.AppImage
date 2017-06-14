@@ -1,5 +1,5 @@
 FROM centos:6.7
-LABEL maintainer "Fernando Ortiz <nandub@nandub.info>"
+LABEL maintainer "Fernando Ortiz <nandub+appimage@nandub.info>"
 
 RUN yum -y install fuse fuse-libs
 

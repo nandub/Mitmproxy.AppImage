@@ -1,5 +1,5 @@
 FROM nandub/ubuntu:10.04
-LABEL maintainer "Fernando Ortiz <nandub@nandub.info>"
+LABEL maintainer "Fernando Ortiz <nandub+appimage@nandub.info>"
 
 ENV DEBIAN_FRONTEND noninteractive
 

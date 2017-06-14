@@ -110,8 +110,6 @@ run mkdir -p "$appdir" "$cachedir" "$distdir" "$downloads"
 
 # Source some helper functions
 run wget -q --no-check-certificate https://github.com/probonopd/AppImageKit/releases/download/8/appimagetool-x86_64.AppImage -O "$cachedir/appimagetool"
-run wget -q --no-check-certificate https://github.com/probonopd/AppImageKit/releases/download/6/AppImageAssistant_6-x86_64.AppImage -O  "$cachedir/appimageassistant"
-#run wget -q --no-check-certificate https://github.com/probonopd/AppImages/raw/master/functions.sh -O "$cachedir/functions.sh"
 run wget -q --no-check-certificate https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tgz -O "$downloads/Python-3.5.3.tgz"
 run wget -q --no-check-certificate https://bootstrap.pypa.io/get-pip.py -O "$downloads/get-pip.py"
 run cp "$topdir/linux/functions.sh" "$cachedir/functions.sh"
@@ -237,7 +235,13 @@ export PATH="${APPDIR}"/usr/bin/:"${APPDIR}"/usr/sbin/:"${APPDIR}"/usr/games/:"$
 export LD_LIBRARY_PATH="${APPDIR}"/usr/lib/:"${APPDIR}"/usr/lib/i386-linux-gnu/:"${APPDIR}"/usr/lib/x86_64-linux-gnu/:"${APPDIR}"/usr/lib32/:"${APPDIR}"/usr/lib64/:"${APPDIR}"/lib/:"${APPDIR}"/lib/i386-linux-gnu/:"${APPDIR}"/lib/x86_64-linux-gnu/:"${APPDIR}"/lib32/:"${APPDIR}"/lib64/:"${LD_LIBRARY_PATH}"
 export PYTHONPATH="${APPDIR}"/usr/share/pyshared/:"${PYTHONPATH}"
 EXEC=$(grep -e '^Exec=.*' "${APPDIR}"/*.desktop | head -n 1 | cut -d "=" -f 2 | cut -d " " -f 1)
-exec "${EXEC}" $@
+PROGRAM="${1##*/}"
+if [ "x$PROGRAM" != "x" ]; then
+  shift
+  exec "${PROGRAM}" "$@"
+else
+  exec "${EXEC}" $@
+fi
 EOF
   chmod +x "$appdir/AppRun"
 }
