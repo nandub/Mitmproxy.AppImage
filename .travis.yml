@@ -7,8 +7,8 @@ services:
  
 before_install:
   - mkdir -p ${PWD}/images
-  - docker build -t nandub/mitmproxy_appimage -f Dockerfile_lucid.ubuntu .
-  - docker run -i -v $(pwd)/images:/image --cap-add SYS_ADMIN --cap-add MKNOD --device=/dev/fuse:mrw nandub/mitmproxy_appimage
+  - docker build -t nandub/mitmproxy_appimage -f Dockerfile.ubuntu_lucid .
+  - docker run -i --rm -v$(pwd)/images:/image -v$(pwd)/debs:/debs --cap-add SYS_ADMIN --cap-add MKNOD --device=/dev/fuse:mrw nandub/mitmproxy_appimage
 
 script:
   - ls -lh ${PWD}/images/*
