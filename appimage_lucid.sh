@@ -109,7 +109,7 @@ run rm -rf "$builddir"
 run mkdir -p "$appdir" "$cachedir" "$distdir" "$downloads"
 
 # Source some helper functions
-run wget -q --no-check-certificate https://github.com/probonopd/AppImageKit/releases/download/8/appimagetool-x86_64.AppImage -O "$cachedir/appimagetool"
+run wget -q --no-check-certificate https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O "$cachedir/appimagetool"
 run wget -q --no-check-certificate https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tgz -O "$downloads/Python-3.5.3.tgz"
 run wget -q --no-check-certificate https://bootstrap.pypa.io/get-pip.py -O "$downloads/get-pip.py"
 run cp "$topdir/linux/functions.sh" "$cachedir/functions.sh"
@@ -231,6 +231,7 @@ set -e
 [ -n "$DEBUG" ] && set -x
 
 APPDIR="$(dirname "$(readlink -e "$0")")"
+export LANG=en_US.UTF-8
 export PATH="${APPDIR}"/usr/bin/:"${APPDIR}"/usr/sbin/:"${APPDIR}"/usr/games/:"${APPDIR}"/bin/:"${APPDIR}"/sbin/:"${PATH}"
 export LD_LIBRARY_PATH="${APPDIR}"/usr/lib/:"${APPDIR}"/usr/lib/i386-linux-gnu/:"${APPDIR}"/usr/lib/x86_64-linux-gnu/:"${APPDIR}"/usr/lib32/:"${APPDIR}"/usr/lib64/:"${APPDIR}"/lib/:"${APPDIR}"/lib/i386-linux-gnu/:"${APPDIR}"/lib/x86_64-linux-gnu/:"${APPDIR}"/lib32/:"${APPDIR}"/lib64/:"${LD_LIBRARY_PATH}"
 export PYTHONPATH="${APPDIR}"/usr/share/pyshared/:"${PYTHONPATH}"
@@ -291,9 +292,9 @@ appimage="$distdir/$APP-$VERSION.glibc${GLIBC_NEEDED}-$ARCH.AppImage"
 # Note: extract appimagetool so fuse is not needed.
 run chmod +x "$cachedir/appimagetool"
 run "$cachedir/appimagetool" --appimage-extract
-run env VERSION="$VERSION" ./squashfs-root/AppRun --no-appstream --verbose "$appdir" "$appimage"
+run env VERSION="$VERSION" ./squashfs-root/AppRun --no-appstream --verbose -u 'gh-releases-zsync|nandub|Mitmproxy.AppImage|latest|Mitmproxy-*-$ARCH.AppImage.zsync' "$appdir" "$appimage"
 
 #Useful when running inside docker.
 if [ -d /image ]; then
-  run cp -p "$appimage" /image/
+  run cp -p "$distdir/*" /image/
 fi

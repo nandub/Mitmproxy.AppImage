@@ -97,8 +97,7 @@ run rm -rf "$builddir"
 run mkdir -p "$appdir" "$cachedir" "$distdir" "$downloads"
 
 # Source some helper functions
-run wget -q https://github.com/probonopd/AppImageKit/releases/download/8/appimagetool-x86_64.AppImage -O "$cachedir/appimagetool"
-run wget -q https://github.com/probonopd/AppImageKit/releases/download/6/AppImageAssistant_6-x86_64.AppImage -O  "$cachedir/appimageassistant"
+run wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O "$cachedir/appimagetool"
 run wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O "$cachedir/functions.sh"
 run wget -q https://www.python.org/ftp/python/3.5.3/Python-3.5.3.tgz -O "$downloads/Python-3.5.3.tgz"
 run wget -q https://bootstrap.pypa.io/get-pip.py -O "$downloads/get-pip.py"
@@ -184,9 +183,12 @@ run cp $topdir/linux/$LOWERAPP.png "$appdir/$LOWERAPP.png"
 create_apprun()
 {
   cat >"$appdir/AppRun" <<\EOF
-#!/bin/sh
+#!/usr/bin/env bash
 set -e
+[ -n "$DEBUG" ] && set -x
+
 APPDIR="$(dirname "$(readlink -e "$0")")"
+export LANG=en_US.UTF-8
 export PATH="${APPDIR}"/usr/bin/:"${APPDIR}"/usr/sbin/:"${APPDIR}"/usr/games/:"${APPDIR}"/bin/:"${APPDIR}"/sbin/:"${PATH}"
 export LD_LIBRARY_PATH="${APPDIR}"/usr/lib/:"${APPDIR}"/usr/lib/i386-linux-gnu/:"${APPDIR}"/usr/lib/x86_64-linux-gnu/:"${APPDIR}"/usr/lib32/:"${APPDIR}"/usr/lib64/:"${APPDIR}"/lib/:"${APPDIR}"/lib/i386-linux-gnu/:"${APPDIR}"/lib/x86_64-linux-gnu/:"${APPDIR}"/lib32/:"${APPDIR}"/lib64/:"${LD_LIBRARY_PATH}"
 export PYTHONPATH="${APPDIR}"/usr/share/pyshared/:"${PYTHONPATH}"
