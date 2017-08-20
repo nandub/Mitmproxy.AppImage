@@ -296,5 +296,5 @@ run env VERSION="$VERSION" ./squashfs-root/AppRun --no-appstream --verbose -u 'g
 
 #Useful when running inside docker.
 if [ -d /image ]; then
-  run cp -p "$distdir/*" /image/
+  run cp -p $distdir/* /image/
 fi
