@@ -292,7 +292,9 @@ appimage="$distdir/$APP-$VERSION.glibc${GLIBC_NEEDED}-$ARCH.AppImage"
 # Note: extract appimagetool so fuse is not needed.
 run chmod +x "$cachedir/appimagetool"
 run "$cachedir/appimagetool" --appimage-extract
-run env VERSION="$VERSION" ./squashfs-root/AppRun --no-appstream --verbose -u 'gh-releases-zsync|nandub|Mitmproxy.AppImage|latest|Mitmproxy-*-$ARCH.AppImage.zsync' "$appdir" "$appimage"
+pushd "$distdir"
+  run env VERSION="$VERSION" $builddir/squashfs-root/AppRun --no-appstream --verbose -u "gh-releases-zsync|nandub|Mitmproxy.AppImage|latest|Mitmproxy-*-$ARCH.AppImage.zsync" "$appdir" "$appimage"
+popd 
 
 #Useful when running inside docker.
 if [ -d /image ]; then
