@@ -212,7 +212,7 @@ Type=Application
 Name=$APP
 Exec=$LOWERAPP
 Icon=$LOWERAPP
-Categories=Utility;Network
+Categories=Utility;Network;
 Comment=An interactive TLS-capable intercepting HTTP proxy for penetration testers and software developers
 EOF
 }
