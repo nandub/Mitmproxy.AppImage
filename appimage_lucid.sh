@@ -293,7 +293,7 @@ appimage="$distdir/$APP-$VERSION.glibc${GLIBC_NEEDED}-$ARCH.AppImage"
 run chmod +x "$cachedir/appimagetool"
 run "$cachedir/appimagetool" --appimage-extract
 pushd "$distdir"
-  run env VERSION="$VERSION" $builddir/squashfs-root/AppRun --no-appstream --verbose -u "gh-releases-zsync|nandub|Mitmproxy.AppImage|latest|Mitmproxy-*-$ARCH.AppImage.zsync" "$appdir" "$appimage"
+  run env VERSION="$VERSION" $builddir/squashfs-root/AppRun --no-appstream --verbose -u "zsync|https://github.com/nandub/Mitmproxy.AppImage/releases/download/continuous/Mitmproxy-$ARCH.AppImage.zsync" "$appdir" "$appimage"
 popd 
 
 #Useful when running inside docker.
